@@ -1,0 +1,27 @@
+.checkout-item-button {
+	width: 70px;
+}
+
+
+input{
+    margin: 10px 0px;
+}
+
+h6{
+    color: black;
+}
+
+.single-checkout-item img{
+    width: 150px;
+    height: 130px;
+    object-fit: cover; 
+}
+
+.checkout-item-button button{
+    width: 50px;
+}
+
+.btn-block {
+    width: fit-content;
+    margin-top: 20px;
+}

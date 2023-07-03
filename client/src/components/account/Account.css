@@ -1,0 +1,25 @@
+.accountContainer{
+padding: 5%;
+width: 50%;
+height: fit-content;
+}
+
+.accountInfo{
+    padding: 5%;
+}
+
+.form-outline{
+    background-color: #363B3F;
+    padding: 19px;
+    border-radius: 15px;
+color: white;
+}
+
+h3{
+    color: white;
+}
+
+button{
+    width: 100px;
+    
+}

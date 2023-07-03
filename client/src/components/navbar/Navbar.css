@@ -1,0 +1,33 @@
+.navbar-brand img {
+	height: 50px;
+	
+}
+.navbar-nav {
+	display: flex;
+	align-items: center;
+  }
+  
+  .nav-item {
+	margin-right: 10px;
+  }
+
+  .navbar-nav .nav-link {
+	text-decoration-color: none !important; 
+  }
+
+.navbar {
+	background-color: #b8aea5;
+	box-shadow: 0px 1px 3px #0000001f;
+}
+
+@media (max-width: 600px) {
+	.navbar-brand img {
+		height: 30px;
+	}
+
+	
+	.btn-rounded {
+		padding-left: 10px !important;
+		padding-right: 10px !important;
+	}
+}

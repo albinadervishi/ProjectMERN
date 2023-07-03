@@ -1,0 +1,46 @@
+.App {
+	background-color: black;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+li,
+a {
+	font-family: 'Open Sans', sans-serif;
+	text-decoration: none;
+}
+
+p {
+	font-family: 'Roboto', sans-serif;
+	text-decoration: none;
+}
+
+h5,
+h3 {
+	font-weight: 600;
+}
+
+.btn-rounded {
+	border-radius: 25px;
+	color: white;
+	background-color: black;
+	border: none;
+	padding-right: 20px;
+	padding-left: 20px;
+}
+
+a:hover {
+	text-decoration: none;
+	color: #ff4565;
+}
+
+* {
+	transition: .2s all ease-in-out;
+}
+
+html {
+	scroll-behavior: smooth;
+}

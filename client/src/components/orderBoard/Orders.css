@@ -1,0 +1,11 @@
+.order-table{
+    padding: 5%;
+
+}
+
+
+tr{
+    height: 70px;
+    margin: 10px 10px;
+    border: 5px solid black;
+}

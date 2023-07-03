@@ -1,0 +1,48 @@
+.container{
+    color: white;
+}
+
+.header-text::after {
+	content: "";
+	width: 230px;
+	margin: 7px auto;
+	height: 2px;
+	background-color: rgb(255, 69, 101);
+	display: block;
+}
+
+.collapse-btn {
+	cursor: pointer;
+	color: rgb(53, 85, 136);
+	display: flex;
+	align-items: center;
+	font-weight: 500;
+}
+
+.collapse-btn .icon {
+	font-size: 1.3em;
+	margin-left: 15px;
+}
+
+
+.container .col {
+    padding: 50px;
+}
+
+.container .card{
+    width: fit-content;
+    margin: 10px 30px;
+    border: none;
+	padding: 10px;
+    background-color: #b8aea5;
+}
+
+.container .card:hover {
+	box-shadow: 0px 7px 10px rgb(210, 210, 210);
+	border-radius: 15px;
+}
+
+.card-body svg {
+    margin-right: 2px;
+    height: 20px;
+  }

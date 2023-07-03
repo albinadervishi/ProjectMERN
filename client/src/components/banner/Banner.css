@@ -1,0 +1,16 @@
+.banner {
+	background-image: url('../../images/banner4.jpg');
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+	height: 90vh;
+	color: white;
+}
+
+.order-btn {
+	background-color: white;
+	height: 100%;
+	width: 130px;
+    border-radius: 25px;
+}
+

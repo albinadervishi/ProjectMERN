@@ -1,0 +1,22 @@
+.banner {
+	background-image: url('../../images/banner4.jpg');
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+	height: 100vh;
+	color: white;
+}
+
+.btn {
+	height: 100%;
+	width: 130px;
+    border-radius: 25px;
+}
+
+.login-btn{
+    background-color: #4687c8;
+}
+
+.signup-btn{
+    background-color: white;
+}
