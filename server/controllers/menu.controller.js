@@ -26,12 +26,28 @@ module.exports.createItem = (request, response) => {
       .catch(err => response.json(err));
   };
 
-
-module.exports.updateItem = (request, response) => {
- Menu.findOneAndUpdate({ _id: request.params.id }, request.body, { new: true })
-          .then(updatedItem => response.json(updatedItem))
-          .catch(err => response.status(500).json(err));
-  };
+  module.exports.updateItem = (request, response) => {
+    const foodId = request.params.id;
+    const updatedItem = request.body;
+    
+    if (updatedItem.name) {
+        Menu.find({ name: updatedItem.name, _id: { $ne: foodId } })
+            .then(nameExists => {
+                if (nameExists.length > 0) {
+                    return Promise.reject({ errors: { name: { message: 'This item already exists' } } });
+                } else {
+                    Menu.findOneAndUpdate({ _id: foodId }, updatedItem, { new: true })
+                        .then(updatedItem => response.json(updatedItem))
+                        .catch(err => response.json(err));
+                }
+            })
+            .catch(err => response.json(err));
+    } else {
+        Menu.findOneAndUpdate({ _id: foodId }, updatedItem, { new: true })
+            .then(updatedItem => response.json(updatedItem))
+            .catch(err => response.json(err));
+    }
+};
   
 
 

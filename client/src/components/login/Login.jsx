@@ -12,15 +12,18 @@ import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import backgroundImage from "../../images/banner4.jpg";
 import axios from "axios";
+import videoBackground from "../../images/bg-video.mp4";
+import Logo from '../../images/foodIcon.jpg';
+
 
 const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [validation, setValidation] = useState({});
   const [show, setShow] = useState(false);
+  const [errors, setErrors] = useState([]);
+
 
   const showPass = (e) => {
     setShow(!show);
@@ -49,7 +52,7 @@ const Login = () => {
       }
     } catch (error) {
       console.log(error);
-      setValidation(error);
+      setErrors(error.response.data.errors);
     }
   };
 
@@ -59,34 +62,51 @@ const Login = () => {
         container
         component="main"
         sx={{
-          backgroundImage: `url(${backgroundImage})`,
-          backgroundRepeat: "no-repeat",
-          backgroundColor: (t) =>
-            t.palette.mode === "light"
-              ? t.palette.grey[50]
-              : t.palette.grey[900],
-          backgroundSize: "cover",
-          backgroundPosition: "center",
           height: "100vh",
-          padding: "50px",
+          position: "relative",
+          overflow: "hidden",
         }}
       >
+        <video
+          src={videoBackground}
+          autoPlay
+          muted
+          loop
+          style={{
+            position: "absolute",
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+          }}
+        />
         <CssBaseline />
 
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
           <Box
             sx={{
-              my: 8,
-              mx: 4,
+              my: 14,
+              mx: 5,
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
+              position: "relative",
+              zIndex: 1,
+              padding: "20px",
             }}
           >
-            <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-              <LockOutlinedIcon />
+            <Avatar sx={{ width: 100, height: 100 }}>
+              <img
+                src={Logo}
+                alt="Red onion logo"
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  borderRadius: "50%",
+                }}
+              />
             </Avatar>
-            <Typography component="h1" variant="h5">
+            <Typography component="h1" variant="h5" sx={{ color: "white" }}>
               Log in
             </Typography>
             <Box
@@ -106,7 +126,11 @@ const Login = () => {
                 autoFocus
                 onChange={(e) => setEmail(e.target.value)}
               />
-              {validation.email ? validation.email.message : ""}
+              {errors.email ? (
+                <p className="text-danger"> {errors.email.message}</p>
+              ) : (
+                ""
+              )}
               <TextField
                 type={show ? "text" : "password"}
                 margin="normal"
@@ -117,15 +141,17 @@ const Login = () => {
                 id="password"
                 autoComplete="current-password"
                 onChange={(e) => setPassword(e.target.value)}
+                InputProps={{
+                  endAdornment: (
+                    <Button onClick={showPass}>{show ? "Hide" : "Show"}</Button>
+                  ),
+                }}
               />
-              {validation.password ? validation.password.message : ""}
-              <Button h="1.75rem" size="sm" onClick={showPass}>
-                {show ? "Hide" : "Show"}
-              </Button>
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              />
+              {errors.password ? (
+                <p className="text-danger"> {errors.password.message}</p>
+              ) : (
+                ""
+              )}
               <Button
                 type="submit"
                 fullWidth
@@ -136,11 +162,6 @@ const Login = () => {
                 Log In
               </Button>
               <Grid container>
-                <Grid item xs>
-                  <Link href="#" variant="body2">
-                    Forgot password?
-                  </Link>
-                </Grid>
                 <Grid item>
                   <Link to={"/signup"} variant="body2">
                     <p>Don't have an account? Sign Up</p>

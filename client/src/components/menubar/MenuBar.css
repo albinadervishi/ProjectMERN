@@ -18,7 +18,9 @@
 }
 
 .food-area nav .active {
-  color: red;
+  color: #57a7a9;
+  box-shadow: 0 4px 6px white; 
+  border-radius: 15px; 
 }
 
 .food-area nav .active::after {
@@ -34,7 +36,7 @@
 
 .food-area .row .card {
   width: 70%;
-  height: 400px;
+  height: 450px;
   margin-bottom: 20px;
   border-radius: 15px;
   border: none;
@@ -62,6 +64,9 @@
 	margin-right: 5px;
   }
 
+  button {
+    margin-right: 10px;
+  }
   
   
   

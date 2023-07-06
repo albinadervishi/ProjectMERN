@@ -21,7 +21,7 @@ const Signup = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [address, setAddress] = useState("");
-  const [validation, setValidation] = useState({});
+  const [validation, setValidation] = useState([]);
   const [show, setShow] = useState(false);
   const navigate = useNavigate();
 
@@ -33,7 +33,6 @@ const Signup = () => {
 
   const handleRegister = async (e) => {
     e.preventDefault();
-    console.log("hl")
     try {
       const response = await axios.post(
         "http://localhost:8000/api/register",
@@ -50,12 +49,11 @@ const Signup = () => {
       );
 
       if (response.status === 200) {
-        console.log(response);
-        navigate("/");
+        console.log(response.data.errors);
+        setValidation(response.data.errors);
       }
     } catch (error) {
-      console.log(error);
-      setValidation(error.response.data.errors);
+      console.log(error.response.data.errors);
     }
   };
 
@@ -100,7 +98,7 @@ const Signup = () => {
                     autoFocus
                     onChange={(e) => setFirstName(e.target.value)}
                   />
-                  {validation.firstName ? validation.firstName.message : ""}
+                  {validation.firstName ? (<p className="text-danger"> {validation.firstName.message}</p>) : ("")}
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <TextField
@@ -112,8 +110,9 @@ const Signup = () => {
                     autoComplete="family-name"
                     onChange={(e) => setLastName(e.target.value)}
                   />
+                  {validation.lastName ? (<p className="text-danger"> {validation.lastName.message}</p>) : ("")}
                 </Grid>
-                {validation.lastName ? validation.lastName.message : ""}
+                
                 <Grid item xs={12}>
                   <TextField
                     required
@@ -125,7 +124,7 @@ const Signup = () => {
                     onChange={(e) => setEmail(e.target.value)}
                   />
                 </Grid>
-                {validation.email ? validation.email.message : ""}
+                {validation.email ? (<p className="text-danger"> {validation.email.message}</p>) : ("")}
                 <Grid item xs={12}>
                   <TextField
                     required
@@ -138,7 +137,7 @@ const Signup = () => {
                     onChange={(e) => setPassword(e.target.value)}
                   />
                 </Grid>
-                {validation.password ? validation.password.message : ""}
+                {validation.password ? (<p className="text-danger"> {validation.password.message}</p>) : ("")}
                 <Grid item xs={12}>
                   <TextField
                     required
@@ -152,8 +151,7 @@ const Signup = () => {
                   />
                 </Grid>
                 {validation.confirmPassword
-                  ? validation.confirmPassword.message
-                  : ""}
+                  ? (<p className="text-danger"> {validation.confirmPassword.message}</p>) : ("")}
                 <Grid item xs={12}>
                   <TextField
                     required
@@ -165,7 +163,7 @@ const Signup = () => {
                     onChange={(e) => setPhoneNumber(e.target.value)}
                   />
                 </Grid>
-                {validation.phoneNumber ? validation.phoneNumber.message : ""}
+                {validation.phoneNumber ? (<p className="text-danger"> {validation.phoneNumber.message}</p>) : ("")}
                 <Grid item xs={12}>
                   <TextField
                     required
@@ -177,7 +175,7 @@ const Signup = () => {
                     onChange={(e) => setAddress(e.target.value)}
                   />
                 </Grid>
-                {validation.address ? validation.address.message : ""}
+                {validation.address ? (<p className="text-danger"> {validation.address.message}</p>) : ("")}
               </Grid>
               <Button
                 type="submit"
@@ -190,7 +188,7 @@ const Signup = () => {
               </Button>
               <Grid container justifyContent="flex-end">
                 <Grid item>
-                  <Link href="#" variant="body2">
+                  <Link to={"/login"} variant="body2">
                     Already have an account? Sign in
                   </Link>
                 </Grid>

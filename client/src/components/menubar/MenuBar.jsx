@@ -9,7 +9,7 @@ import pizza from "../../images/foodIcons/pizza-delivery.mp4";
 import beef from "../../images/foodIcons/ham.mp4";
 import spaghetti from "../../images/foodIcons/spaghetti.mp4";
 
-const MenuBar = () => {
+const MenuBar = (props) => {
   const [item, setItem] = useState([]);
 	const [ selectedFoodType, setSelectedFoodType ] = useState('spaghetti');
 
@@ -17,11 +17,11 @@ const MenuBar = () => {
     axios
       .get("http://localhost:8000/api/menu")
       .then((res) => {
-        console.log(res.data.menu);
+        console.log(props.admin);
         setItem(res.data.menu);
       })
       .catch((err) => {
-        console.log(err);
+        console.log("errori menuse" + err);
       });
   }, []);
 
@@ -31,7 +31,7 @@ const MenuBar = () => {
       .then((res) => {
         setItem(item.filter((item) => item._id != itemId));
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log("?" + err));
   };
   
   const selectedFoods = item.filter((item) => item.type === selectedFoodType);
@@ -41,8 +41,18 @@ const MenuBar = () => {
       <div className="container">
         <nav>
           <ul className="nav justify-content-center mt-5">
-            <li className="menuBar-item" onClick={() => setSelectedFoodType('spaghetti')}>
-              <span to="spaghetti" className={selectedFoodType === 'spaghetti' ? 'active nav-link' : 'nav-link'}>
+            <li
+              className="menuBar-item"
+              onClick={() => setSelectedFoodType("spaghetti")}
+            >
+              <span
+                to="spaghetti"
+                className={
+                  selectedFoodType === "spaghetti"
+                    ? "active nav-link"
+                    : "nav-link"
+                }
+              >
                 <video
                   onMouseOver={(event) => event.target.play()}
                   onMouseOut={(event) => event.target.pause()}
@@ -53,8 +63,16 @@ const MenuBar = () => {
                 <p>Spaghetti</p>
               </span>
             </li>
-            <li className="menuBar-item" onClick={() => setSelectedFoodType('beef')}>
-              <span to="beef" className={selectedFoodType === 'beef' ? 'active nav-link' : 'nav-link'}>
+            <li
+              className="menuBar-item"
+              onClick={() => setSelectedFoodType("beef")}
+            >
+              <span
+                to="beef"
+                className={
+                  selectedFoodType === "beef" ? "active nav-link" : "nav-link"
+                }
+              >
                 <video
                   onMouseOver={(event) => event.target.play()}
                   onMouseOut={(event) => event.target.pause()}
@@ -65,8 +83,16 @@ const MenuBar = () => {
                 <p>Beef</p>
               </span>
             </li>
-            <li className="menuBar-item" onClick={() => setSelectedFoodType('burger')}>
-              <span to="burger" className={selectedFoodType === 'burger' ? 'active nav-link' : 'nav-link'}>
+            <li
+              className="menuBar-item"
+              onClick={() => setSelectedFoodType("burger")}
+            >
+              <span
+                to="burger"
+                className={
+                  selectedFoodType === "burger" ? "active nav-link" : "nav-link"
+                }
+              >
                 <video
                   onMouseOver={(event) => event.target.play()}
                   onMouseOut={(event) => event.target.pause()}
@@ -77,8 +103,16 @@ const MenuBar = () => {
                 <p>Burger</p>
               </span>
             </li>
-            <li className="menuBar-item" onClick={() => setSelectedFoodType('pizza')}>
-              <span to="pizza" className={selectedFoodType === 'pizza' ? 'active nav-link' : 'nav-link'}>
+            <li
+              className="menuBar-item"
+              onClick={() => setSelectedFoodType("pizza")}
+            >
+              <span
+                to="pizza"
+                className={
+                  selectedFoodType === "pizza" ? "active nav-link" : "nav-link"
+                }
+              >
                 <video
                   onMouseOver={(event) => event.target.play()}
                   onMouseOut={(event) => event.target.pause()}
@@ -89,9 +123,19 @@ const MenuBar = () => {
                 <p>Pizza</p>
               </span>
             </li>
-            
-            <li className="menuBar-item" onClick={() => setSelectedFoodType('desserts')}>
-              <span to="desserts" className={selectedFoodType === 'desserts' ? 'active nav-link' : 'nav-link'}>
+
+            <li
+              className="menuBar-item"
+              onClick={() => setSelectedFoodType("desserts")}
+            >
+              <span
+                to="desserts"
+                className={
+                  selectedFoodType === "desserts"
+                    ? "active nav-link"
+                    : "nav-link"
+                }
+              >
                 <video
                   onMouseOver={(event) => event.target.play()}
                   onMouseOut={(event) => event.target.pause()}
@@ -102,8 +146,16 @@ const MenuBar = () => {
                 <p>Desserts</p>
               </span>
             </li>
-            <li className="menuBar-item" onClick={() => setSelectedFoodType('drinks')}>
-              <span to="drinks" className={selectedFoodType === 'drinks' ? 'active nav-link' : 'nav-link'}>
+            <li
+              className="menuBar-item"
+              onClick={() => setSelectedFoodType("drinks")}
+            >
+              <span
+                to="drinks"
+                className={
+                  selectedFoodType === "drinks" ? "active nav-link" : "nav-link"
+                }
+              >
                 <video
                   onMouseOver={(event) => event.target.play()}
                   onMouseOut={(event) => event.target.pause()}
@@ -118,9 +170,9 @@ const MenuBar = () => {
         </nav>
 
         <div className="row my-5">
-            {selectedFoods.map((food, index) => (
-              <div className="col-md-4" key={index}>
-                <Link to={"/menu/" + food._id} className="d-flex">
+          {selectedFoods.map((food, index) => (
+            <div className="col-md-4" key={index}>
+              {props.admin === true ? (
                 <div className="card text-center custom-width">
                   <img
                     src={food.imgURL}
@@ -132,17 +184,36 @@ const MenuBar = () => {
                     <p>{food.description}</p>
                     <h4>${food.price.toFixed(2)}</h4>
                   </div>
+                  {props.admin && (
+                    <div className="d-flex justify-content-between">
+                      <Link to={"/menu/edit/" + food._id} ><button style={{width: "90px"}} className="btn btn-dark">Edit</button></Link>
+                      <button
+                        className="btn btn-danger"
+                        onClick={() => deleteItem(food._id)}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  )}
                 </div>
+              ) : (
+                <Link to={"/menu/" + food._id} className="d-flex">
+                  <div className="card text-center custom-width">
+                    <img
+                      src={food.imgURL}
+                      alt="FoodItem"
+                      className="card-img-top"
+                    />
+                    <div className="card-body">
+                      <h5 key={index + 1}>{food.name}</h5>
+                      <p>{food.description}</p>
+                      <h4>${food.price.toFixed(2)}</h4>
+                    </div>
+                  </div>
                 </Link>
-              </div>
-            ))}
-          
-        </div>
-
-        <div className="text-center">
-          <button disabled className="btn btn-secondary">
-            Check Out Your Food
-          </button>
+              )}
+            </div>
+          ))}
         </div>
       </div>
     </section>

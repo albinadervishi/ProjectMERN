@@ -1,48 +1,69 @@
 import React, { useEffect, useState } from 'react';
 import './Cart.css';
 import axios from "axios";
-import { Link,  useParams  } from 'react-router-dom';
+import { Link,  useParams, useNavigate  } from 'react-router-dom';
 
 
 const Cart =(props)=> {
     const { id } = useParams();
     const [phoneNumber, setPhoneNumber] = useState("");
     const [address, setAddress] = useState("");
+    const [foodId, setFoodId] = useState("");
+    const userId =localStorage.getItem('userId');
+    const navigate = useNavigate()
 
     useEffect(() => {
     axios
-    .get(`http://localhost:8000/api/user/${id}`)
+    .get(`http://localhost:8000/api/user/` + userId)
     .then((res) => {
-      console.log(res.data);
       setPhoneNumber(res.data.phoneNumber);
       setAddress(res.data.address);
     })
-    .catch((err) => console.log(err));
+    .catch((err) => console.log("errori1" + err));
 }, []);
 
 const onSave = (e) => {
     e.preventDefault();
-    axios.patch('http://localhost:8000/api/user/edit/' + id, {
+    axios.patch('http://localhost:8000/api/user/edit/' + userId, {
         phoneNumber,
         address      
     })
         .then(res=>{
-            console.log(res);
+            console.log("res1" + res);
     })
     .catch(err=>(err ))
 }
+
+const handleOrder = async (e) => {
+    const products = props.cart.map(item => ({
+    foodId: item._id,
+    quantity: item.quantity
+  }));
+
+ axios.post('http://localhost:8000/api/order/new', {
+    price,
+    userId,
+    products
+        })
+        .then(res=>{
+            console.log(res);
+            console.log("price" + quantity);
+    })
+    .catch((err) => console.log(err));
+}
+
 
 
 const subTotal = props.cart.reduce((acc, crr) => {
     return acc + (crr.price * crr.quantity);
 }, 0)
 
-const totalQuantity = props.cart.reduce((acc, crr) => {
+const quantity = props.cart.reduce((acc, crr) => {
     return acc + crr.quantity;
 }, 0)
 
-const deliveryFee = totalQuantity && 2;
-const grandTotal = subTotal  + deliveryFee;
+const deliveryFee = quantity && 2;
+const price = subTotal  + deliveryFee;
 
     return (
         <div className="shipment container my-5">
@@ -101,7 +122,10 @@ const grandTotal = subTotal  + deliveryFee;
 
                                 <div className="checkout-item-button ml-3 btn">
                                     <button
-                                        onClick={() => props.checkOutItemHandler(item._id, (item.quantity + 1))}
+                                        onClick={() => {
+                                            props.checkOutItemHandler(item._id, item.quantity + 1);
+                                            setFoodId(item._id);
+                                          }}
                                         className="btn font-weight-bolder"
                                     >
                                         +
@@ -117,7 +141,10 @@ const grandTotal = subTotal  + deliveryFee;
                                         item.quantity > 0 ?
 
                                             <button
-                                                onClick={() => props.checkOutItemHandler(item._id, (item.quantity - 1))}
+                                            onClick={() => {
+                                                props.checkOutItemHandler(item._id, item.quantity - 1);
+                                                setFoodId(item._id);
+                                              }}
                                                 className="btn font-weight-bolder"
                                             >
                                                 -
@@ -142,7 +169,7 @@ const grandTotal = subTotal  + deliveryFee;
 
                     <div className="cart-calculation">
                         <p className="d-flex justify-content-between">
-                            <span>Sub Total: {totalQuantity} Item</span>
+                            <span>Sub Total: {quantity} Item</span>
                             <span>${subTotal.toFixed(2)}</span>
                         </p>
 
@@ -153,19 +180,22 @@ const grandTotal = subTotal  + deliveryFee;
 
                         <p className="h5 d-flex justify-content-between">
                             <span>Total</span>
-                            <span>${grandTotal.toFixed(2)}</span>
+                            <span>${price.toFixed(2)}</span>
                         </p>
 
                         {
-                            totalQuantity ?
-                                    <Link to="/order-complete">
+                            quantity ?
+                                   
                                         <button
-                                            onClick={() => props.clearCart()}
+                                            onClick={() =>{
+                                                props.clearCart();
+                                                handleOrder()
+                                            } }
                                             className="btn btn-block btn-danger"
                                         >
                                             Check Out Your Food
                                     </button>
-                                    </Link>
+                            
 
                                 :
                                 <button

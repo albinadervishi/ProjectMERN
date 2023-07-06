@@ -3,23 +3,48 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
 module.exports.register = (req, res) => {
-  console.log(req.body.password );
-  User.create(req.body)
-    .then((user) => {
-      const userToken = jwt.sign(
-        {
-          id: user._id,
-        },
-        process.env.SECRET_KEY
-      );
+  const { email } = req.body;
+    User.exists({ email })
+      .then(emailExists => {
+        if (emailExists) {
+          return Promise.reject({ errors: { email: { message: 'An user with this email already exists' } } });
+        } else {
+          return  User.create(req.body);
+        }
+      })
+      .then((user) => {
+        const userToken = jwt.sign(
+          {
+            id: user._id,
+          },
+          process.env.SECRET_KEY
+        );
+  
+        res
+          .cookie("usertoken", userToken, {
+            httpOnly: true,
+          })
+          .json({ msg: "success!", user: user });
+      })
+      .catch((err) => res.json(err));
 
-      res
-        .cookie("usertoken", userToken, {
-          httpOnly: true,
-        })
-        .json({ msg: "success!", user: user });
-    })
-    .catch((err) => res.json(err));
+  // console.log(req.body.password );
+  // User.create(req.body)
+  //   .then((user) => {
+  //     const userToken = jwt.sign(
+  //       {
+  //         id: user._id,
+  //       },
+  //       process.env.SECRET_KEY
+  //     );
+
+  //     res
+  //       .cookie("usertoken", userToken, {
+  //         httpOnly: true,
+  //       })
+  //       .json({ msg: "success!", user: user });
+  //   })
+  //   .catch((err) => res.json(err));
 };
 
 module.exports.login = async (req, res) => {
@@ -87,17 +112,9 @@ module.exports.getUser = (request, response) => {
 };
 
 module.exports.updateUser = (request, response) => {
-  User.exists({ email: request.body.email })
-    .then((emailExists) => {
-      if (emailExists) {
-        return Promise.reject({
-          errors: { email: { message: "This email already has an account" } },
-        });
-      }
-      return User.findOneAndUpdate({ _id: request.params.id }, request.body, {
+   User.findOneAndUpdate({ _id: request.params.id }, request.body, {
         new: true,
-      });
-    })
+      })
     .then((updatedUser) => response.json(updatedUser))
     .catch((err) => response.status(500).json(err));
 };

@@ -23,15 +23,16 @@ function App() {
   const [cart, setCart] = useState([])
   const userId = localStorage.getItem('userId')
   const [admin, setAdmin] = useState(false)
+  const [firstName, setFirstName] = useState("")
   const [refresh, setRefresh] = useState()
 
   useEffect(() => {
     userId?
     axios.get('http://localhost:8000/api/user/' + userId)
-    
       .then(res => { 
         console.log(res.data.admin);
-        setAdmin(res.data.admin) })
+        setAdmin(res.data.admin);
+        setFirstName(res.data.firstName) })
       .catch(err => console.log(err)) : console.log("errors")
   }, [refresh])
 
@@ -68,25 +69,27 @@ function App() {
       {admin === true ? 
       <Routes>
        <Route path="/" element={<Navigate to="/orders" />} ></Route>
+       <Route path="/welcome" element={<Welcome/>}></Route>
        <Route path="/login" element={<Login/>}></Route>
         <Route path="/signup" element={<Signup/>}></Route>
-       <Route path="/orders" element={<><Navbar cart={cart}/> <Orders/> <Footer/></>}></Route>
-       <Route path="/menu" element={<><Navbar cart={cart}/> <MenuBar/> <Footer/></>}></Route>
-        <Route path="/menu/:id" element={<><Navbar cart={cart}/><FoodDetails cart={cart} cartHandler={cartHandler}/><Footer/></>}></Route>
-       <Route path="/menu/new" element={<><Navbar cart={cart}/> <NewItem/> <Footer/></>}></Route>
-       <Route path="/menu/edit/:id" element={<><Navbar cart={cart}/> <EditMenu/> <Footer/></>}></Route>
-       <Route path="/account" element={<><Navbar cart={cart}/> <Account/> <Footer/></>}></Route>
+       <Route path="/orders" element={<><Navbar cart={cart} firstName={firstName} admin={admin}/> <Orders/> <Footer/></>}></Route>
+       <Route path="/menu" element={<><Navbar cart={cart} firstName={firstName} admin={admin}/> <MenuBar admin={admin}/> <Footer/></>}></Route>
+        <Route path="/menu/:id" element={<><Navbar cart={cart} firstName={firstName} admin={admin}/><FoodDetails cart={cart} cartHandler={cartHandler}/><Footer/></>}></Route>
+       <Route path="/menu/new" element={<><Navbar cart={cart} firstName={firstName} admin={admin}/> <NewItem/> <Footer/></>}></Route>
+       <Route path="/menu/edit/:id" element={<><Navbar cart={cart} firstName={firstName} admin={admin}/> <EditMenu/> <Footer/></>}></Route>
+       <Route path="/account" element={<><Navbar cart={cart} firstName={firstName} admin={admin}/> <Account/> <Footer/></>}></Route>
        </Routes>
        : 
        <Routes>
-        <Route path="/" element={<><Navbar cart={cart}/> <Banner/> <RatingPage/> <Products/> <Blog/> <Footer/></>}></Route>
+        <Route path="/" element={<Navigate to="/home" />} ></Route>
+        <Route path="/home" element={<><Navbar cart={cart} firstName={firstName} admin={admin}/> <Banner/> <RatingPage/> <Products/> <Blog/> <Footer/></>}></Route>
         <Route path="/welcome" element={<Welcome/>}></Route>
         <Route path="/login" element={<Login />}></Route>
         <Route path="/signup" element={<Signup/>}></Route>
-        <Route path="/menu" element={<><Navbar cart={cart}/> <MenuBar/> <Footer/></>}></Route>
-        <Route path="/menu/:id" element={<><Navbar cart={cart}/><FoodDetails cart={cart} cartHandler={cartHandler}/><Footer/></>}></Route>
-        <Route path="/checkout" element={<><Navbar cart={cart}/><Cart cart={cart} checkOutItemHandler={checkOutItemHandler}  clearCart={clearCart}/><Footer/></>}></Route>
-        <Route path="/account" element={<><Navbar cart={cart}/> <Account/> <Footer/></>}></Route>
+        <Route path="/menu" element={<><Navbar cart={cart} firstName={firstName} admin={admin}/> <MenuBar/> <Footer/></>}></Route>
+        <Route path="/menu/:id" element={<><Navbar cart={cart} firstName={firstName} admin={admin}/><FoodDetails cart={cart} cartHandler={cartHandler}/><Footer/></>}></Route>
+        <Route path="/checkout" element={<><Navbar cart={cart} firstName={firstName} admin={admin}/><Cart cart={cart} checkOutItemHandler={checkOutItemHandler}  clearCart={clearCart}/><Footer/></>}></Route>
+        <Route path="/account" element={<><Navbar cart={cart} firstName={firstName} admin={admin}/> <Account/> <Footer/></>}></Route>
       </Routes>
        }
       

@@ -1,9 +1,9 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import axios from "axios";
 import './Navbar.css';
 import Logo from '../../images/foodIcon.jpg';
-import userPhoto from '../../images/Group 2.png';
+import userPhoto from '../../images/userPhoto.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartArrowDown } from '@fortawesome/free-solid-svg-icons';
 
@@ -22,10 +22,9 @@ const Navbar = (props) => {
         });
 };
 
-
     return (
-      <nav className="navbar navbar-expand navbar-light py-2  sticky-top">
-        <div className="container">
+      <nav className="navbar navbar-expand navbar-light py-2  sticky-top ">
+        <div className="container font-link">
           <Link to="/" className="navbar-brand">
             <img src={Logo} alt="Red onion logo" />
           </Link>
@@ -43,11 +42,15 @@ const Navbar = (props) => {
               </Link>
             </li> 
 
-            <li className="nav-item">
-              <Link to="/about"  className="nav-link text-dark d-flex  align-items-center">
-                <h5 >About Us</h5>
-              </Link>
-            </li> 
+            {props.admin === true ?
+             <li className="nav-item">
+             <Link to="/menu/new"  className="nav-link text-dark d-flex  align-items-center">
+               <h5 >Add a new item</h5>
+             </Link>
+           </li>:
+              " " }
+
+          
           </ul>
 
           <ul className="navbar-nav align-items-center ">
@@ -60,7 +63,7 @@ const Navbar = (props) => {
 
             <li className="nav-item d-flex align-items-center">
               <Link to="/account" className="nav-link text-dark d-flex  align-items-center" >
-                <p style={{ marginRight: '8px' }} className="mb-0">Albina</p>
+                <p style={{ marginRight: '8px' }} className="mb-0">{props.firstName}</p>
                 <img src={userPhoto} width="40px" alt="" />
               </Link>
             </li>

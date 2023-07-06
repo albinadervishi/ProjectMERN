@@ -6,12 +6,13 @@ import { useNavigate, useParams } from 'react-router-dom';
 import './EditMenu.css';
 
 const EditMenu=(props)=>{
-    const { id } = useParams();
+  const { id } = useParams();
   const [item, setItem] = useState([]);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState();
-    const navigate = useNavigate();
+  const [errors, setErrors] = useState([]);
+  const navigate = useNavigate();
 
     useEffect(() => {
         axios
@@ -34,8 +35,14 @@ const EditMenu=(props)=>{
             price     
         })
         .then((res) => {
-            console.log(res);
-            navigate("/menu");
+          console.log(res.data);
+          if (res.data.errors) {
+              setErrors(res.data.errors);
+          }
+          else{
+          console.log(res)
+          navigate("/menu");
+          }
           })
         .catch(err=>(err ))
     }
@@ -56,39 +63,64 @@ const EditMenu=(props)=>{
         </div>
         <div className="row mb-5">
           <div className="col-md-7 pr-md-4">
-            <div class="form-outline mb-4">
+            {/* <div class="form-outline mb-4">
               <label class="form-label">Name</label>
               <input
                 type="text"
                 class="form-control"
                 value={name}
-                onChange = {(e)=>setName(e.target.value)}
+                onChange={(e) => setName(e.target.value)}
               />
-            </div>
+            </div> */}
 
-            <div class="form-outline mb-4">
-              <label class="form-label">Description</label>
+            <div class="input-group mb-3 d-flex align-items-center">
+                <span class="input-group-text">
+                  Name
+                </span>
               <input
                 type="text"
                 class="form-control"
+                aria-label="Default"
+                aria-describedby="inputGroup-sizing-default"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+            </div>
+            {errors.name ? (
+                <p className="text-danger">{errors.name.message}</p>
+              ) : (
+                ""
+              )}
+
+            <div class="input-group mb-3 d-flex align-items-center">
+                <span class="input-group-text">
+                  Description
+                </span>
+              <input
+                type="text"
+                class="form-control"
+                aria-label="Default"
+                aria-describedby="inputGroup-sizing-default"
                 value={description}
-                onChange = {(e)=>setDescription(e.target.value)}
+                onChange={(e) => setDescription(e.target.value)}
               />
             </div>
 
-            <div class="form-outline mb-4">
-              <label class="form-label">Price</label>
+            <div class="input-group mb-3  d-flex align-items-center">
+              <span class="input-group-text">$</span>
               <input
                 type="text"
                 class="form-control"
+                aria-label="Amount (to the nearest dollar)"
                 value={price}
-                onChange = {(e)=>setPrice(e.target.value)}
+                onChange={(e) => setPrice(e.target.value)}
               />
+              <span class="input-group-text">.00</span>
             </div>
 
-            <div className="action">
-              <button className="btn btn-danger btn-rounded mb-2 d-flex align-items-center">
-              <span onClick={onSubmitHandler}>Save</span>
+            <div className="action ">
+              <button className="btn btn-danger btn-rounded mb-2 text-align">
+                <span onClick={onSubmitHandler}>Save</span>
               </button>
             </div>
           </div>

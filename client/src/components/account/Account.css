@@ -1,21 +1,23 @@
 .accountContainer{
 padding: 5%;
-width: 50%;
 height: fit-content;
+text-align: center;
 }
 
 .accountInfo{
     padding: 5%;
+    text-align: center;
 }
 
 .form-outline{
     background-color: #363B3F;
     padding: 19px;
     border-radius: 15px;
-color: white;
+    color: white;
 }
 
-h3{
+h3, 
+h4{
     color: white;
 }
 
@@ -23,3 +25,52 @@ button{
     width: 100px;
     
 }
+
+.accountInfo p{
+    color: white;
+}
+
+.photoContainer p:nth-child(2) {
+    font-weight: bold;
+  }
+
+  .photoContainer p:nth-child(3) {
+    font-style: italic;
+  }
+
+  .infoItem{
+    background-color: white;
+    padding: 7%;
+    border-radius: 25px;
+    border: 2px solid  #363B3F;
+    width: 250px;
+    height: 170px;
+    margin: 10% 0;
+  }
+
+  .infoItem p{
+    color: black;
+  }
+
+  .infoItem p:first-child{
+    font-weight: bold;
+  }
+
+  .infoRow{
+    margin: 0 10% 0 0;
+  }
+
+.photoContainer .btn{
+    margin-top: 50px;
+    color: black !important;
+    background-color: white !important;
+    height: 50px;
+}
+
+.photoContainer .btn:hover{
+    background-color: black !important;
+	color: #ff4565 !important;
+	border: 1px solid #ff4565;
+}
+  
+  

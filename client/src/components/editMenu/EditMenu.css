@@ -25,6 +25,12 @@
     height: 50px;
 }
 
+.action .btn:hover{
+    background-color: black !important;
+	color: #ff4565 !important;
+	border: 1px solid #ff4565;
+}
+
 .order-first img{
     width: 300px;
     height: 400px;
@@ -32,6 +38,7 @@
 
 }
 
-.form-outline {
+
+.input-group {
     width: 400px;
 }
