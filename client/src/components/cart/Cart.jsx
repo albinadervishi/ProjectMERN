@@ -8,7 +8,6 @@ const Cart =(props)=> {
     const { id } = useParams();
     const [phoneNumber, setPhoneNumber] = useState("");
     const [address, setAddress] = useState("");
-    const [foodId, setFoodId] = useState("");
     const userId =localStorage.getItem('userId');
     const navigate = useNavigate()
 
@@ -108,7 +107,6 @@ const price = subTotal  + deliveryFee;
                 <div className="offset-md-1 col-md-5">
                     <div className="restaurant-info mb-3">
                         <h5>Arriving in 20-30 min</h5>
-                        <h5>107 Rd No 9</h5>
                     </div>
 
                     {
@@ -124,7 +122,6 @@ const price = subTotal  + deliveryFee;
                                     <button
                                         onClick={() => {
                                             props.checkOutItemHandler(item._id, item.quantity + 1);
-                                            setFoodId(item._id);
                                           }}
                                         className="btn font-weight-bolder"
                                     >
@@ -143,7 +140,6 @@ const price = subTotal  + deliveryFee;
                                             <button
                                             onClick={() => {
                                                 props.checkOutItemHandler(item._id, item.quantity - 1);
-                                                setFoodId(item._id);
                                               }}
                                                 className="btn font-weight-bolder"
                                             >

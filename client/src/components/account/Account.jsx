@@ -14,7 +14,6 @@ const Account =()=>{
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [address, setAddress] = useState("");
   const navigate = useNavigate();
@@ -23,7 +22,6 @@ const Account =()=>{
     setEditMode(prevEditMode => !prevEditMode);
   };
   
-
 const userId =localStorage.getItem('userId')
 
   useEffect(() => {
@@ -33,7 +31,6 @@ const userId =localStorage.getItem('userId')
         setFirstName(res.data.firstName);
         setLastName(res.data.lastName);
         setEmail(res.data.email);
-        setPassword(res.data.password);
         setPhoneNumber(res.data.phoneNumber);
         setAddress(res.data.address);
       })
@@ -42,7 +39,6 @@ const userId =localStorage.getItem('userId')
 
   const handleSave = (e) => {
     e.preventDefault();
-  
     const updatedUser = {
       firstName,
       lastName,
@@ -178,38 +174,6 @@ const userId =localStorage.getItem('userId')
             </div>
           </div>
         )}
-
-        {/* <div className="username d-flex justify-content-between align-center">
-        <div class="form-outline mb-4">
-          <label class="form-label" >FirstName</label>
-          <input type="text" class="form-control" value={firstName} onChange = {(e)=>setFirstName(e.target.value)} />
-        </div>
-
-        <div class="form-outline mb-4">
-          <label class="form-label" >LastName</label>
-          <input type="text" class="form-control" value={lastName} onChange={(e) => setLastName(e.target.value)} />
-        </div>
-      </div>
-
-      <div class="form-outline mb-4">
-        <label class="form-label" >Email address</label>
-        <input type="email" class="form-control" value={email} onChange={(e) => setEmail(e.target.value)}/>
-      </div>
-
-      <div class="form-outline mb-4">
-        <label class="form-label" >Password</label>
-        <input type="password" class="form-control" value={password} onChange={(e) => setPassword(e.target.value)}/>
-      </div>
-
-      <div class="form-outline mb-4">
-          <label class="form-label" >Phone Number</label>
-          <input type="text" class="form-control" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />
-        </div>
-        
-        <div class="form-outline mb-4">
-          <label class="form-label" >Address</label>
-          <input type="text" class="form-control" value={address} onChange={(e) => setAddress(e.target.value)} />
-        </div> */}
       </div>
     </div>
   );

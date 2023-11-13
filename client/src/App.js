@@ -18,10 +18,11 @@ import Account from './components/account/Account';
 import EditMenu from './components/editMenu/EditMenu';
 import NewItem from './components/newItem/NewItem';
 import Orders from './components/orderBoard/Orders';
+import PrivateRoute from './components/PrivateRoute';
 
 function App() {
   const [cart, setCart] = useState([])
-  const userId = localStorage.getItem('userId')
+  const userId = localStorage.getItem("userId")
   const [admin, setAdmin] = useState(false)
   const [firstName, setFirstName] = useState("")
   const [refresh, setRefresh] = useState()
@@ -39,7 +40,7 @@ function App() {
   const cartHandler = currentFood => {
     const alreadyAdded = cart.find(item => item._id === currentFood._id)
     if (alreadyAdded) {
-      const reamingCarts = cart.filter(item => cart._id !== currentFood)
+      const reamingCarts = cart.filter(item => item._id !== currentFood)
       setCart(reamingCarts);
     } else {
       const newCart = [...cart, currentFood]
@@ -66,6 +67,7 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
+      
       {admin === true ? 
       <Routes>
        <Route path="/" element={<Navigate to="/orders" />} ></Route>
@@ -78,18 +80,21 @@ function App() {
        <Route path="/menu/new" element={<><Navbar cart={cart} firstName={firstName} admin={admin}/> <NewItem/> <Footer/></>}></Route>
        <Route path="/menu/edit/:id" element={<><Navbar cart={cart} firstName={firstName} admin={admin}/> <EditMenu/> <Footer/></>}></Route>
        <Route path="/account" element={<><Navbar cart={cart} firstName={firstName} admin={admin}/> <Account/> <Footer/></>}></Route>
+       <Route path="*" element={<p>There's nothing here: 404!</p>} />
        </Routes>
        : 
        <Routes>
-        <Route path="/" element={<Navigate to="/home" />} ></Route>
+        <Route path="/checkout" element={<PrivateRoute> <><Navbar cart={cart} firstName={firstName} admin={admin} /><Cart cart={cart} checkOutItemHandler={checkOutItemHandler} clearCart={clearCart} /><Footer /></></PrivateRoute>} />
+        <Route path="/account" element={<PrivateRoute> <><Navbar cart={cart} firstName={firstName} admin={admin} /><Account /><Footer /></></PrivateRoute>} />
+
+        <Route path="/menu" element={<><Navbar cart={cart} firstName={firstName} admin={admin}/> <MenuBar/> <Footer/></>}></Route>
+        <Route path="/menu/:id" element={<><Navbar cart={cart} firstName={firstName} admin={admin}/><FoodDetails cart={cart} cartHandler={cartHandler}/><Footer/></>}></Route>
         <Route path="/home" element={<><Navbar cart={cart} firstName={firstName} admin={admin}/> <Banner/> <RatingPage/> <Products/> <Blog/> <Footer/></>}></Route>
         <Route path="/welcome" element={<Welcome/>}></Route>
         <Route path="/login" element={<Login />}></Route>
         <Route path="/signup" element={<Signup/>}></Route>
-        <Route path="/menu" element={<><Navbar cart={cart} firstName={firstName} admin={admin}/> <MenuBar/> <Footer/></>}></Route>
-        <Route path="/menu/:id" element={<><Navbar cart={cart} firstName={firstName} admin={admin}/><FoodDetails cart={cart} cartHandler={cartHandler}/><Footer/></>}></Route>
-        <Route path="/checkout" element={<><Navbar cart={cart} firstName={firstName} admin={admin}/><Cart cart={cart} checkOutItemHandler={checkOutItemHandler}  clearCart={clearCart}/><Footer/></>}></Route>
-        <Route path="/account" element={<><Navbar cart={cart} firstName={firstName} admin={admin}/> <Account/> <Footer/></>}></Route>
+        <Route path="/" element={<Navigate to="/home" />} ></Route>
+        <Route path="*" element={<h1>There's nothing here: 404!</h1>} />
       </Routes>
        }
       

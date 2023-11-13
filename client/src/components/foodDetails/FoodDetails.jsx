@@ -5,12 +5,13 @@ import axios from "axios";
 import { useNavigate, useParams } from 'react-router-dom';
 import './FoodDetails.css';
 
-const FoodDetails=(props)=>{
+const FoodDetails=( props)=>{
     const { id } = useParams();
     const [item, setItem] = useState([]);
     const [quantity, setQuantity] = useState(1);
     const [isSuccess, setIsSuccess] = useState(false);
     const navigate = useNavigate();
+    const userId = localStorage.getItem("userId")
 
     useEffect(() => {
         axios
@@ -72,7 +73,14 @@ const FoodDetails=(props)=>{
 
                     <div className="action">
                         <button className='btn btn-danger btn-rounded mb-2 d-flex align-items-center'
-                            onClick={() => finalCartHandler(item)}
+                            onClick={() => {
+                                if (!userId) {
+                                    navigate("/login");
+                                    return;
+                                }
+                                finalCartHandler(item);
+                            }}
+                            
                         >
                             <FontAwesomeIcon icon={faCartArrowDown} />
                             <span>  Add</span>
